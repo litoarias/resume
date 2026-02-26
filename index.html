@@ -1,141 +1,752 @@
-
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hipólito Arias - iOS Architect</title>
+  <title>Hipolito Arias — iOS Architect & AI-Augmented Engineer</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    /* ── LIGHT MODE (default) ── */
+    :root {
+      --bg: #f0f0f5;
+      --surface: #ffffff;
+      --surface-2: #f5f5fa;
+      --border: rgba(0,0,0,0.08);
+      --text: #1a1a2e;
+      --text-dim: #6b6b80;
+      --accent: #6366f1;
+      --accent-glow: rgba(99,102,241,0.15);
+      --cyan: #0891b2;
+      --cyan-glow: rgba(8,145,178,0.1);
+      --green: #059669;
+      --name-gradient-start: #1a1a2e;
+      --name-gradient-end: #6366f1;
+      --tag-primary-bg: rgba(99,102,241,0.08);
+      --tag-primary-border: rgba(99,102,241,0.2);
+      --tag-primary-text: #4f46e5;
+      --tag-ai-bg: rgba(8,145,178,0.06);
+      --tag-ai-border: rgba(8,145,178,0.18);
+      --tag-ai-text: #0891b2;
+      --tag-secondary-bg: rgba(5,150,105,0.06);
+      --tag-secondary-border: rgba(5,150,105,0.15);
+      --tag-secondary-text: #059669;
+      --svg-fill: #6b6b80;
+      --svg-hover: #0891b2;
+      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+    }
+
+    /* ── DARK MODE ── */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0a0a0f;
+        --surface: #12121a;
+        --surface-2: #1a1a26;
+        --border: rgba(255,255,255,0.06);
+        --text: #e8e8ed;
+        --text-dim: #8888a0;
+        --accent: #6366f1;
+        --accent-glow: rgba(99,102,241,0.3);
+        --cyan: #22d3ee;
+        --cyan-glow: rgba(34,211,238,0.2);
+        --green: #34d399;
+        --name-gradient-start: #ffffff;
+        --name-gradient-end: #22d3ee;
+        --tag-primary-bg: rgba(99,102,241,0.1);
+        --tag-primary-border: rgba(99,102,241,0.3);
+        --tag-primary-text: #a5b4fc;
+        --tag-ai-bg: rgba(34,211,238,0.08);
+        --tag-ai-border: rgba(34,211,238,0.25);
+        --tag-ai-text: #22d3ee;
+        --tag-secondary-bg: rgba(52,211,153,0.08);
+        --tag-secondary-border: rgba(52,211,153,0.2);
+        --tag-secondary-text: #34d399;
+        --svg-fill: #8888a0;
+        --svg-hover: #22d3ee;
+        --shadow: 0 4px 12px rgba(0,0,0,0.3);
+      }
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f2f2f2;
-      color: #333;
+
+    html, body {
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
     }
-    .container {
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(ellipse at 20% 20%, var(--accent-glow) 0%, transparent 50%),
+                  radial-gradient(ellipse at 80% 80%, var(--cyan-glow) 0%, transparent 50%);
+      animation: bgShift 20s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+
+    @keyframes bgShift {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-5%, -3%); }
+    }
+
+    .resume {
+      position: relative;
+      z-index: 1;
+      height: 100vh;
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      grid-template-rows: 1fr;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    /* ── LEFT PANEL ── */
+    .panel-left {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
       display: flex;
-      max-width: 1000px;
-      margin: 40px auto;
-      background: #fff;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      flex-direction: column;
+      gap: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
     }
-    .sidebar {
-      background: #f9f9f9;
-      width: 30%;
-      padding: 30px;
-      border-right: 1px solid #ddd;
+
+    .identity {
+      text-align: center;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
     }
-    .main {
-      width: 70%;
-      padding: 40px;
+
+    .avatar {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--cyan));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      font-size: 28px;
+      font-weight: 800;
+      color: white;
+      box-shadow: 0 0 30px var(--accent-glow);
     }
-    h1 {
-      font-size: 32px;
-      color: #007AFF;
-      margin-bottom: 10px;
+
+    .identity h1 {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--name-gradient-start) 0%, var(--name-gradient-end) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    h2 {
-      font-size: 18px;
-      margin-top: 30px;
-      margin-bottom: 10px;
-      color: #007AFF;
+
+    .identity .tagline {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-top: 4px;
     }
-    .section {
-      margin-bottom: 25px;
+
+    .section-label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+      margin-bottom: 8px;
     }
-    .skills span, .badges span {
-      display: inline-block;
-      background: #e0e0e0;
-      padding: 5px 10px;
-      border-radius: 15px;
-      margin: 4px 6px 0 0;
+
+    .contact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .contact-item .icon {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      background: var(--surface-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 13px;
+      flex-shrink: 0;
     }
-    .job {
-      margin-bottom: 20px;
+
+    .contact-item a {
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s;
     }
-    .job-title {
-      font-weight: bold;
+
+    .contact-item a:hover { color: var(--cyan); }
+
+    .education-block {
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.5;
     }
-    .job-meta {
-      font-style: italic;
-      color: #666;
+
+    .education-block strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .links-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .link-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      background: var(--surface-2);
+      border-radius: 10px;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 500;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+    }
+
+    .link-item:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .link-item .link-icon {
+      font-size: 15px;
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .link-item .link-icon svg {
+      width: 18px;
+      height: 18px;
+      fill: var(--svg-fill);
+      transition: fill 0.2s;
+    }
+
+    .link-item:hover .link-icon svg {
+      fill: var(--svg-hover);
+    }
+
+    .lang-switch {
+      margin-top: auto;
+      text-align: center;
+    }
+
+    .lang-switch a {
+      font-size: 11px;
+      color: var(--text-dim);
+      text-decoration: none;
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      transition: all 0.2s;
+    }
+
+    .lang-switch a:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+
+    /* ── RIGHT PANEL ── */
+    .panel-right {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 16px;
+      overflow: hidden;
+    }
+
+    /* HEADER */
+    .header-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .header-text h2 {
       font-size: 14px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      margin-bottom: 6px;
     }
-    .contact p, .education p {
-      margin: 6px 0;
-      font-size: 14px;
+
+    .header-text p {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-dim);
+      max-width: 620px;
+    }
+
+    .header-text p strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .years-badge {
+      flex-shrink: 0;
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--cyan));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 40px var(--accent-glow);
+      color: white;
+    }
+
+    .years-badge .num {
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .years-badge .label {
+      font-size: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+      opacity: 0.9;
+    }
+
+    /* MIDDLE GRID */
+    .middle-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      overflow: hidden;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 22px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .card-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+
+    /* Experience */
+    .exp-item {
+      margin-bottom: 14px;
+      padding-left: 14px;
+      border-left: 2px solid var(--surface-2);
+      position: relative;
+    }
+
+    .exp-item:last-child { margin-bottom: 0; }
+
+    .exp-item::before {
+      content: '';
+      position: absolute;
+      left: -5px; top: 2px;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .exp-role {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .exp-company {
+      font-size: 11px;
+      color: var(--cyan);
+      font-weight: 500;
+    }
+
+    .exp-period {
+      font-size: 10px;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+    }
+
+    .exp-desc {
+      font-size: 11px;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    /* Skills grid */
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .skill-tag {
+      padding: 5px 11px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text-dim);
+      transition: all 0.2s;
+    }
+
+    .skill-tag.primary {
+      background: var(--tag-primary-bg);
+      border-color: var(--tag-primary-border);
+      color: var(--tag-primary-text);
+    }
+
+    .skill-tag.ai {
+      background: var(--tag-ai-bg);
+      border-color: var(--tag-ai-border);
+      color: var(--tag-ai-text);
+    }
+
+    .skill-tag.secondary {
+      background: var(--tag-secondary-bg);
+      border-color: var(--tag-secondary-border);
+      color: var(--tag-secondary-text);
+    }
+
+    /* AI Section */
+    .ai-workflow {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .ai-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      transition: border-color 0.2s;
+    }
+
+    .ai-item:hover {
+      border-color: var(--tag-ai-border);
+    }
+
+    .ai-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      color: var(--cyan);
+    }
+
+    .ai-info h4 {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--cyan);
+    }
+
+    .ai-info p {
+      font-size: 10px;
+      color: var(--text-dim);
+      line-height: 1.4;
+      margin-top: 1px;
+    }
+
+    /* BOTTOM BAR */
+    .bottom-bar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 36px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .stat-value {
+      font-size: 20px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat-label {
+      font-size: 10px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    .stat-divider {
+      width: 1px;
+      height: 30px;
+      background: var(--border);
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="sidebar">
-      <h1>Hipólito Arias</h1>
-      <p>iOS Architect on the way · +10 years of experience</p>
 
-      <div class="section contact">
-        <h2>Contact</h2>
-        <p>Madrid, Spain</p>
-        <p><a href="mailto:lito.arias.cervero@gmail.com">lito.arias.cervero@gmail.com</a></p>
-        <p><a href="https://www.linkedin.com/in/hipolitoarias/">LinkedIn</a></p>
-      </div>
+<div class="resume">
 
-      <div class="section">
-        <h2>Skills</h2>
-        <div class="skills">
-          <span>Swift</span><span>SwiftUI</span><span>Clean Architecture</span>
-          <span>HealthKit</span><span>Async/Await</span><span>CoreData</span>
-          <span>MapKit</span><span>Testing</span><span>Strict concurrency</span>
-          
+  <!-- LEFT PANEL -->
+  <aside class="panel-left">
+    <div class="identity">
+      <div class="avatar">HA</div>
+      <h1>Hipolito Arias</h1>
+      <div class="tagline">iOS Architect & AI-Augmented Engineer</div>
+    </div>
+
+    <div>
+      <div class="section-label">Contact</div>
+      <div class="contact-list">
+        <div class="contact-item">
+          <span class="icon">@</span>
+          <a href="mailto:lito.arias.cervero@gmail.com">lito.arias.cervero@gmail.com</a>
         </div>
-      </div>
-
-      <div class="section education">
-        <h2>Education</h2>
-        <p>Development of computer applications</p>
-        <p>IES Jaumer II El Just</p>
+        <div class="contact-item">
+          <span class="icon">#</span>
+          <span>Madrid, Spain</span>
+        </div>
+        <div class="contact-item">
+          <span class="icon">in</span>
+          <a href="https://www.linkedin.com/in/hipolitoarias/" target="_blank">linkedin.com/in/hipolitoarias</a>
+        </div>
       </div>
     </div>
 
-    <div class="main">
-      <div class="section">
-        <h2>Professional Summary</h2>
-        <p>Senior iOS developer since 2013, specialized in clean architecture, SwiftUI, and efficient development without third-party libraries. Expert in testing, HealthKit, CoreData, SwiftData, and advanced integration between SwiftUI and UIKit. Extensive experience in banking, building complex custom clean architectures. Acted as iOS architect for CEPSA, in addition to all work performed at Kairos DS. 
-          Looking to lead technical design of mobile solutions and guide teams towards excellence.</p>
+    <div>
+      <div class="section-label">Education</div>
+      <div class="education-block">
+        <strong>Computer Applications Development</strong><br/>
+        IES Jaume II El Just
       </div>
+    </div>
 
-      <div class="section">
-        <h2>Experience</h2>
-        <div class="job">
-          <div class="job-title">Senior iOS Engineer</div>
-          <div class="job-meta">Kairos DS · 2018 - Present</div>
-          <ul>
-            <li>Design and development of modern iOS apps using SwiftUI.</li>
-            <li>Mentoring, code reviews, and internal training.</li>
-            <li>Native architecture with no external dependencies.</li>
-          </ul>
+    <div>
+      <div class="section-label">Public Presence</div>
+      <div class="links-list">
+        <a href="https://litoarias.medium.com/" target="_blank" class="link-item">
+          <span class="link-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zm7.42 0c0 3.54-1.51 6.42-3.38 6.42S14.2 15.54 14.2 12s1.52-6.42 3.38-6.42 3.38 2.88 3.38 6.42zm2.92 0c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75c.66 0 1.19 2.58 1.19 5.75z"/></svg></span>
+          Technical articles on Medium
+        </a>
+        <a href="https://apps.apple.com/us/developer/lito-arias/id669939672" target="_blank" class="link-item">
+          <span class="link-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg></span>
+          Apps on the App Store
+        </a>
+      </div>
+    </div>
+
+    <div class="lang-switch">
+      <a href="resume_es.html">ES / Switch to Spanish</a>
+    </div>
+  </aside>
+
+  <!-- RIGHT PANEL -->
+  <main class="panel-right">
+
+    <!-- HEADER -->
+    <div class="header-card">
+      <div class="header-text">
+        <h2>Professional Profile</h2>
+        <p>
+          <strong>Senior iOS developer since 2013</strong>, specialized in clean architecture, SwiftUI, and zero-dependency native solutions.
+          Expert in HealthKit, CoreData, SwiftData, and advanced SwiftUI/UIKit integration.
+          Deep banking experience building complex custom architectures across multiple enterprise clients at Kairos DS.
+          Now leveraging <strong>AI-driven development workflows</strong> to multiply engineering output and code quality.
+        </p>
+      </div>
+      <div class="years-badge">
+        <span class="num">13+</span>
+        <span class="label">Years</span>
+      </div>
+    </div>
+
+    <!-- MIDDLE -->
+    <div class="middle-grid">
+
+      <!-- Experience -->
+      <div class="card">
+        <div class="card-title"><span class="dot"></span> Experience</div>
+
+        <div class="exp-item">
+          <div class="exp-role">Senior iOS Engineer</div>
+          <div class="exp-company">Kairos DS</div>
+          <div class="exp-period">2018 — Present</div>
+          <div class="exp-desc">
+            Architecting modern iOS apps with SwiftUI & UIKit. Code reviews and internal training. Fully native architecture with zero external dependencies across enterprise clients.
+          </div>
         </div>
 
-        <div class="job">
-          <div class="job-title">iOS Developer</div>
-          <div class="job-meta">Freelance / Others · 2013 - 2018</div>
-          <ul>
-            <li>Apps in banking, healthcare, mobility, and retail.</li>
-            <li>Extensive use of HealthKit, MapKit, CoreData.</li>
-          </ul>
+        <div class="exp-item">
+          <div class="exp-role">iOS Developer</div>
+          <div class="exp-company">Freelance / Various</div>
+          <div class="exp-period">2013 — 2018</div>
+          <div class="exp-desc">
+            Apps across banking, healthcare, mobility, and retail sectors. Deep expertise in Swift, Objective-C, HealthKit, MapKit, CoreData, and programmatic UIKit.
+          </div>
         </div>
       </div>
 
-      <div class="section">
-        <h2>Public Presence</h2>
-        <ul>
-          <li><strong>Medium</strong>: <a href="https://litoarias.medium.com/" target="_blank">Technical articles on architecture, testing, and SwiftUI</a></li>
-          <li><strong>App Store</strong>: <a href="https://apps.apple.com/us/developer/lito-arias/id669939672" target="_blank">Published apps as an independent developer</a></li>
-        </ul>
+      <!-- AI Workflows -->
+      <div class="card">
+        <div class="card-title">
+          <span class="dot" style="background:var(--cyan); box-shadow:0 0 8px var(--cyan-glow)"></span>
+          AI-Powered Workflow
+        </div>
+
+        <div class="ai-workflow">
+          <div class="ai-item">
+            <span class="ai-icon">~</span>
+            <div class="ai-info">
+              <h4>Claude Code & Codex CLI</h4>
+              <p>Agentic coding for architecture scaffolding, refactoring, and complex multi-file changes</p>
+            </div>
+          </div>
+          <div class="ai-item">
+            <span class="ai-icon">></span>
+            <div class="ai-info">
+              <h4>Cursor & AI-Assisted IDEs</h4>
+              <p>Real-time pair programming with AI for rapid prototyping and iterative development</p>
+            </div>
+          </div>
+          <div class="ai-item">
+            <span class="ai-icon">*</span>
+            <div class="ai-info">
+              <h4>Prompt Engineering</h4>
+              <p>Custom system prompts, context management, and multi-step reasoning chains for code generation</p>
+            </div>
+          </div>
+          <div class="ai-item">
+            <span class="ai-icon">+</span>
+            <div class="ai-info">
+              <h4>AI-First Development Loop</h4>
+              <p>End-to-end workflow: ideation, architecture, implementation, testing, and documentation — all AI-augmented</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Core Skills -->
+      <div class="card">
+        <div class="card-title"><span class="dot"></span> Core Skills</div>
+        <div class="skills-grid">
+          <span class="skill-tag primary">Swift</span>
+          <span class="skill-tag primary">SwiftUI</span>
+          <span class="skill-tag primary">UIKit</span>
+          <span class="skill-tag primary">Clean Architecture</span>
+          <span class="skill-tag primary">Async/Await</span>
+          <span class="skill-tag primary">Strict Concurrency</span>
+          <span class="skill-tag secondary">HealthKit</span>
+          <span class="skill-tag secondary">CoreData</span>
+          <span class="skill-tag secondary">SwiftData</span>
+          <span class="skill-tag secondary">MapKit</span>
+          <span class="skill-tag secondary">Testing</span>
+          <span class="skill-tag secondary">CI/CD</span>
+        </div>
+      </div>
+
+      <!-- AI Skills -->
+      <div class="card">
+        <div class="card-title">
+          <span class="dot" style="background:var(--cyan); box-shadow:0 0 8px var(--cyan-glow)"></span>
+          AI & Tools
+        </div>
+        <div class="skills-grid">
+          <span class="skill-tag ai">Claude Code</span>
+          <span class="skill-tag ai">OpenAI Codex CLI</span>
+          <span class="skill-tag ai">Cursor IDE</span>
+          <span class="skill-tag ai">GitHub Copilot</span>
+          <span class="skill-tag ai">Prompt Engineering</span>
+          <span class="skill-tag ai">Agentic Workflows</span>
+          <span class="skill-tag ai">AI Code Review</span>
+          <span class="skill-tag ai">MCP Servers</span>
+          <span class="skill-tag ai">Custom AI Agents</span>
+          <span class="skill-tag ai">RAG Pipelines</span>
+        </div>
       </div>
 
     </div>
-  </div>
+
+    <!-- BOTTOM -->
+    <div class="bottom-bar">
+      <div class="stat">
+        <span class="stat-value">iOS</span>
+        <span class="stat-label">Full-Stack<br/>Mobile</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-value">100%</span>
+        <span class="stat-label">Native<br/>No Libraries</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-value">AI</span>
+        <span class="stat-label">Augmented<br/>Daily Workflow</span>
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
 </body>
 </html>
