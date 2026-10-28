@@ -2,7 +2,7 @@
 
 # Setup
 
-Pages are hand-written HTML. Edit each language's `index.html` and keep every language in step (WEB-I18N-002).
+Pages are hand-written HTML: `index.html` (English) and `resume_es.html` (Spanish). Keep both in step (WEB-I18N-002). Shared styles and images live in `assets/`; bump `styles.css?v=` when the CSS changes (WEB-SITE-003).
 
 ## Preview
 

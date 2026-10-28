@@ -15,5 +15,3 @@ Checked automatically on 2026-10-27 (home page only). Fix them when a task touch
 
 | Rule | Where | Notes |
 | --- | --- | --- |
-| WEB-SEO-003 | root | No `sitemap.xml`. |
-| WEB-SEO-003 | root | No `robots.txt`. |

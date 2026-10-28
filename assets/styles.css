@@ -1,30 +1,31 @@
 /*
-  Material concept: the name is engraved into a photographed slab of
-  bead-blasted aluminium (silver in light mode, space grey in dark mode).
-  The rest of the page stays quiet so the plate carries the personality.
+  Practical two-column CV. The one photographic element is a card-sized
+  plate of bead-blasted aluminium holding the name, role and contact
+  (silver in light mode, space grey in dark mode). Everything else is
+  plain, readable type on a cool grey surface.
 */
 
 :root {
   color-scheme: light dark;
   --surface: #e7e9ec;
-  --surface-raised: #f2f3f5;
   --ink: #1d2126;
   --muted: #535a64;
   --rule: #c5c9cf;
   --groove-dark: #a9aeb5;
   --groove-light: #fbfcfd;
+  --pocket: #e0e3e7;
   --accent: #2b5a87;
+  --plate-ink: #1a1d22;
+  --plate-muted: #30343b;
+  --plate-tone: transparent;
+  --plate-fallback: #a9a9ad;
   --engrave-top: rgb(46, 49, 56);
   --engrave-floor: rgb(92, 96, 104);
   --engrave-blend: multiply;
   --engrave-lip: rgba(255, 255, 255, .5);
-  --plate-ink: #1a1d22;
-  --plate-muted: #33373e;
-  --plate-tone: transparent;
-  --slab-fallback: #a9a9ad;
   --wide: 'wdth' 125;
+  --gutter: clamp(16px, 4vw, 48px);
   font-family: 'Archivo', system-ui, sans-serif;
-  font-optical-sizing: auto;
   color: var(--ink);
   background: var(--surface);
   font-synthesis: none;
@@ -34,113 +35,105 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --surface: #1b1e22;
-    --surface-raised: #23272c;
     --ink: #e6e8eb;
     --muted: #a3a9b2;
     --rule: #353a41;
     --groove-dark: #0f1114;
     --groove-light: #3a3f46;
+    --pocket: #16181c;
     --accent: #93b8de;
+    --plate-ink: #eef0f3;
+    --plate-muted: #cfd3d9;
+    --plate-tone: rgba(24, 26, 31, .64);
+    --plate-fallback: #3c3e43;
     /* Laser marks on space grey anodising read lighter than the metal. */
     --engrave-top: rgb(150, 154, 162);
     --engrave-floor: rgb(214, 218, 224);
     --engrave-blend: screen;
     --engrave-lip: rgba(0, 0, 0, .6);
-    --plate-ink: #eef0f3;
-    --plate-muted: #c9cdd3;
-    --plate-tone: rgba(24, 26, 31, .62);
-    --slab-fallback: #3c3e43;
   }
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
 body { margin: 0; background: var(--surface); }
 a { color: inherit; text-underline-offset: 4px; text-decoration-thickness: 1px; }
 a:hover { color: var(--accent); }
-a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 2px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
 button { font: inherit; color: inherit; }
 
-.skip-link { position: absolute; left: 16px; top: -100px; background: var(--surface-raised); color: var(--ink); padding: 12px 16px; z-index: 10; }
+.skip-link { position: absolute; left: 16px; top: -100px; background: var(--surface); color: var(--ink); padding: 12px 16px; z-index: 10; }
 .skip-link:focus { top: 12px; }
 
-.frame { width: min(1180px, 100% - 2 * var(--gutter)); margin-inline: auto; }
-:root { --gutter: clamp(16px, 4.5vw, 56px); }
+.frame { width: min(1160px, 100% - 2 * var(--gutter)); margin-inline: auto; }
+
+/* ---------- Top bar ---------- */
+
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 64px; font-size: 14px; }
+.wordmark { text-decoration: none; font-weight: 700; font-variation-settings: var(--wide); font-size: 15px; }
+.utilities { display: flex; align-items: center; gap: 22px; }
+.languages { display: flex; gap: 14px; }
+.languages a { text-decoration: none; color: var(--muted); padding-block: 8px; }
+.languages a[aria-current] { color: var(--ink); box-shadow: inset 0 -1px currentColor; }
+.print-button { border: 0; background: none; padding: 8px 0; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.print-button:hover { color: var(--accent); }
+
+/* ---------- Layout ---------- */
+
+.layout {
+  display: grid;
+  grid-template-columns: 330px minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  column-gap: clamp(36px, 5vw, 72px);
+  padding-block: 8px 24px;
+}
+.plate { grid-column: 1; grid-row: 1; }
+main { grid-column: 2; grid-row: 1 / span 2; min-width: 0; }
+.side { grid-column: 1; grid-row: 2; padding-top: 40px; }
 
 /* ---------- The plate ---------- */
 
 .plate {
   position: relative;
   isolation: isolate;
+  align-self: start;
+  padding: 30px 28px 28px;
+  border-radius: 18px;
   color: var(--plate-ink);
-  background-color: var(--slab-fallback);
+  background-color: var(--plate-fallback);
   background-image: url('img/slab-narrow.jpg');
   background-image: image-set(url('img/slab-narrow.avif') type('image/avif'), url('img/slab-narrow.webp') type('image/webp'), url('img/slab-narrow.jpg') type('image/jpeg'));
   background-size: cover;
-  background-position: left top;
-  padding-bottom: var(--edge);
-  box-shadow: 0 28px 48px -30px rgba(0, 0, 0, .55);
-  --edge: clamp(18px, 1.9vw, 30px);
+  background-position: 20% 30%;
+  /* Diamond-cut chamfer: a bright upper rim, a darker lower rim, then the
+     shadow the plate casts on the page. */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .75),
+    inset 0 0 0 1px rgba(255, 255, 255, .18),
+    inset 0 -2px 0 rgba(0, 0, 0, .22),
+    0 1px 2px rgba(0, 0, 0, .25),
+    0 18px 36px -18px rgba(0, 0, 0, .45);
 }
-@media (min-width: 760px) {
-  .plate {
-    background-image: url('img/slab-wide.jpg');
-    background-image: image-set(url('img/slab-wide.avif') type('image/avif'), url('img/slab-wide.webp') type('image/webp'), url('img/slab-wide.jpg') type('image/jpeg'));
-  }
-}
-
-/* Dark mode tints the silver slab to space grey. */
 .plate::before {
   content: '';
   position: absolute;
   inset: 0;
+  border-radius: inherit;
   background: var(--plate-tone);
   z-index: -1;
 }
 
-/* The polished diamond-cut edge, photographed with the slab. */
-.plate::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: var(--edge);
-  background: url('img/edge.jpg') center / 100% 100% no-repeat;
-  background: image-set(url('img/edge.webp') type('image/webp'), url('img/edge.jpg') type('image/jpeg')) center / 100% 100% no-repeat;
-}
-
-.plate-inner {
-  min-height: clamp(560px, 86vh, 820px);
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  padding-block: 0 clamp(26px, 4vw, 44px);
-}
-
-.masthead { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 68px; font-size: 14px; }
-.wordmark { text-decoration: none; font-weight: 700; font-variation-settings: var(--wide); letter-spacing: -.01em; font-size: 15px; }
-.utilities { display: flex; align-items: center; gap: 22px; }
-.languages { display: flex; gap: 14px; }
-.languages a { text-decoration: none; color: var(--plate-muted); padding-block: 8px; }
-.languages a[aria-current] { color: var(--plate-ink); box-shadow: inset 0 -1px currentColor; }
-.print-button { border: 0; background: none; padding: 8px 0; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
-.plate a:hover, .print-button:hover { color: inherit; text-decoration-thickness: 2px; }
-
-.nameplate { align-self: center; padding-block: 48px 40px; }
-
-/* Engraving: the ink layer blends with the photo so the metal grain
-   shows inside the letters; each line is shaded darker at the top (the
-   upper wall in shadow), and a light lip sits just under the cut. */
+/* Engraving: the ink layer blends with the photo so the grain shows inside
+   the letters; each line is darker at the top (the wall in shadow) and a
+   light lip sits just under the cut. */
 .engraved {
+  --engrave-lh: 1.04;
   position: relative;
   margin: 0;
   font-weight: 760;
   font-variation-settings: var(--wide);
-  font-size: clamp(48px, 10.4vw, 156px);
+  font-size: 40px;
   line-height: var(--engrave-lh);
-  letter-spacing: -.035em;
-  max-width: 9.5ch;
-  --engrave-lh: 1.02;
+  letter-spacing: -.03em;
 }
 .engraved::before {
   content: attr(data-engrave);
@@ -148,84 +141,53 @@ button { font: inherit; color: inherit; }
   position: absolute;
   inset: 0;
   color: var(--engrave-lip);
-  transform: translateY(.018em);
-  filter: blur(.4px);
+  transform: translateY(.03em);
 }
 .engraved-ink {
   position: relative;
   display: block;
   color: transparent;
   -webkit-text-fill-color: transparent;
-  background: linear-gradient(180deg, var(--engrave-top) 0 16%, var(--engrave-floor) 46%, var(--engrave-floor) 100%) 0 0 / 100% calc(var(--engrave-lh) * 1em) repeat-y;
+  background: linear-gradient(180deg, var(--engrave-top) 0 18%, var(--engrave-floor) 50%, var(--engrave-floor) 100%) 0 0 / 100% calc(var(--engrave-lh) * 1em) repeat-y;
   -webkit-background-clip: text;
   background-clip: text;
   mix-blend-mode: var(--engrave-blend);
 }
 
-/* One pass of studio light across the engraving on load. */
-.engraved::after {
-  content: attr(data-engrave);
-  content: attr(data-engrave) / '';
-  position: absolute;
-  inset: 0;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, .5) 50%, transparent 60%) no-repeat;
-  background-size: 260% 100%;
-  background-position: 130% 0;
-  -webkit-background-clip: text;
-  background-clip: text;
-  mix-blend-mode: soft-light;
-  animation: sweep 2.6s cubic-bezier(.45, .05, .25, 1) .35s 1 both;
-  pointer-events: none;
-}
-@keyframes sweep {
-  from { background-position: 130% 0; }
-  to { background-position: -40% 0; }
-}
+.role { margin: 14px 0 0; font-size: 19px; font-weight: 600; font-variation-settings: 'wdth' 112; letter-spacing: -.01em; }
+.fineprint { margin: 6px 0 0; font-size: 14px; line-height: 1.5; color: var(--plate-muted); }
 
-.role {
-  margin: 26px 0 0;
-  font-size: clamp(20px, 2.4vw, 28px);
-  font-weight: 560;
-  font-variation-settings: 'wdth' 112;
-  letter-spacing: -.01em;
-}
-.fineprint {
-  margin: 12px 0 0;
-  max-width: 34ch;
-  font-size: 15px;
-  line-height: 1.55;
-  color: var(--plate-muted);
-}
-
-.contact { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 28px; font-size: 15px; }
+.contact { list-style: none; margin: 26px 0 0; padding: 18px 0 0; border-top: 1px solid rgba(0, 0, 0, .16); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35); display: grid; gap: 4px; font-size: 14.5px; }
+.contact a { display: inline-block; padding-block: 5px; }
+.contact a:hover { color: inherit; text-decoration-thickness: 2px; }
 .contact-email { font-weight: 600; overflow-wrap: anywhere; }
-.contact-links { display: flex; flex-wrap: wrap; gap: 6px 22px; }
-.contact-links a { padding-block: 4px; }
+@media (prefers-color-scheme: dark) {
+  .contact { border-top-color: rgba(255, 255, 255, .14); box-shadow: inset 0 1px 0 rgba(0, 0, 0, .3); }
+}
 
-/* ---------- The sheet ---------- */
-
-main { padding-block: clamp(56px, 8vw, 96px) 24px; }
+/* ---------- Text blocks ---------- */
 
 .section-title {
-  margin: 0 0 22px;
+  margin: 0 0 18px;
   font-size: 15px;
   font-weight: 650;
   font-variation-settings: 'wdth' 112;
-  letter-spacing: 0;
   color: var(--muted);
 }
 
-.profile { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 32px; padding-bottom: clamp(48px, 6vw, 72px); }
-.profile p { margin: 0; max-width: 58ch; font-size: clamp(19px, 1.9vw, 23px); line-height: 1.5; letter-spacing: -.012em; text-wrap: pretty; }
+.side section + section { margin-top: 32px; }
+.side h3 { margin: 16px 0 3px; font-size: 15px; font-weight: 650; }
+.side .section-title + h3 { margin-top: 0; }
+.side p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--muted); }
 
-.content { display: grid; grid-template-columns: 200px minmax(0, 1fr) 260px; gap: 32px; border-top: 1px solid var(--rule); padding-top: 36px; }
-.experience { grid-column: 1 / 3; grid-row: 1; }
+.profile { padding: 22px 0 40px; }
+.profile p { margin: 0; max-width: 60ch; font-size: clamp(18px, 1.7vw, 21px); line-height: 1.55; letter-spacing: -.01em; text-wrap: pretty; }
 
-/* Timeline: years sit in a machined groove. */
+.experience { border-top: 1px solid var(--rule); padding-top: 32px; }
+
+/* Timeline: start years sit beside a machined groove. */
 .timeline { list-style: none; margin: 0; padding: 0; }
-.job { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 32px; position: relative; padding-bottom: 36px; break-inside: avoid; }
+.job { position: relative; display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 24px; padding-bottom: 32px; break-inside: avoid; }
 .job:last-child { padding-bottom: 0; }
 .job::before {
   content: '';
@@ -238,137 +200,104 @@ main { padding-block: clamp(56px, 8vw, 96px) 24px; }
   background: var(--groove-dark);
   box-shadow: inset 1px 0 0 rgba(0, 0, 0, .18), 1px 0 0 var(--groove-light);
 }
-.job:first-child::before { top: 8px; }
-.job:last-child::before { bottom: auto; height: 30px; }
-.year {
-  padding-left: 22px;
-  font-weight: 700;
-  font-variation-settings: var(--wide);
-  font-size: 30px;
-  line-height: 1;
-  letter-spacing: -.03em;
-  font-variant-numeric: tabular-nums;
-}
-.year span { display: block; margin-top: 8px; font-size: 13px; font-weight: 500; font-variation-settings: 'wdth' 100; letter-spacing: 0; color: var(--muted); }
-.job h3 { margin: 0; font-size: 21px; font-weight: 650; letter-spacing: -.015em; line-height: 1.2; }
-.company { margin: 6px 0 12px; font-size: 15px; color: var(--muted); }
-.job p:not(.company) { margin: 0; font-size: 16px; line-height: 1.6; max-width: 62ch; }
+.job:first-child::before { top: 6px; }
+.job:last-child::before { bottom: auto; height: 28px; }
+.year { margin: 0; padding-left: 18px; font-weight: 700; font-variation-settings: var(--wide); font-size: 24px; line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.year span { display: block; margin-top: 7px; font-size: 13px; font-weight: 500; font-variation-settings: 'wdth' 100; letter-spacing: 0; color: var(--muted); }
+.job h3 { margin: 0; font-size: 20px; font-weight: 650; letter-spacing: -.015em; line-height: 1.2; }
+.company { margin: 5px 0 10px; font-size: 15px; color: var(--muted); }
+.job p:not(.company):not(.year) { margin: 0; font-size: 16px; line-height: 1.6; max-width: 64ch; }
 
 /* The current assignment sits in a milled pocket. */
 .assignment {
-  margin: 18px 0;
-  padding: 18px 22px 20px;
+  margin: 16px 0;
+  padding: 16px 20px 18px;
   border-radius: 10px;
-  background: var(--surface);
+  background: var(--pocket);
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, .14), inset 0 0 0 1px rgba(0, 0, 0, .05), 0 1px 0 var(--groove-light);
 }
 .assignment-header { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-.assignment h4 { margin: 0; font-size: 26px; font-weight: 720; font-variation-settings: var(--wide); letter-spacing: -.03em; }
+.assignment h4 { margin: 0; font-size: 24px; font-weight: 720; font-variation-settings: var(--wide); letter-spacing: -.03em; }
 .assignment .period { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.assignment .assignment-role { margin: 4px 0 10px; color: var(--accent); font-size: 15px; font-weight: 600; }
+.assignment .assignment-role { margin: 4px 0 8px; color: var(--accent); font-size: 15px; font-weight: 600; }
 
-.sidebar { grid-column: 3; grid-row: 1; border-left: 1px solid var(--rule); padding-left: 28px; }
-.sidebar section + section { margin-top: 36px; }
-.sidebar h3 { margin: 18px 0 4px; font-size: 15px; font-weight: 650; }
-.sidebar .section-title + h3 { margin-top: 0; }
-.sidebar p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--muted); }
-
-.more { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 32px; border-top: 1px solid var(--rule); margin-top: clamp(48px, 6vw, 72px); padding-top: 36px; }
+.more { border-top: 1px solid var(--rule); margin-top: 40px; padding-top: 32px; }
 .more-content { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-.more h3 { margin: 0 0 8px; font-size: 17px; font-weight: 650; }
-.more p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--muted); max-width: 46ch; }
+.more h3 { margin: 0 0 6px; font-size: 17px; font-weight: 650; }
+.more p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--muted); }
 
-footer { border-top: 1px solid var(--rule); margin-top: 56px; padding: 18px 0 32px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; font-size: 13px; color: var(--muted); }
+footer { border-top: 1px solid var(--rule); margin-top: 40px; padding: 18px 0 32px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; font-size: 13px; color: var(--muted); }
 
 /* ---------- Smaller screens ---------- */
 
-@media (max-width: 1020px) {
-  .content { grid-template-columns: 160px minmax(0, 1fr); }
-  .experience { grid-column: 1 / -1; }
-  .profile, .more { grid-template-columns: 160px minmax(0, 1fr); }
-  .job { grid-template-columns: 160px minmax(0, 1fr); }
-  .sidebar { grid-column: 1 / -1; grid-row: auto; border-left: 0; border-top: 1px solid var(--rule); padding: 36px 0 0; margin-top: 12px; display: grid; grid-template-columns: 160px minmax(0, 1fr) minmax(0, 1fr); gap: 32px; }
-  .sidebar section + section { margin-top: 0; }
-  .sidebar .skills { grid-column: 2; }
-  .sidebar .education { grid-column: 3; }
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; grid-template-rows: none; }
+  .plate, main, .side { grid-column: 1; grid-row: auto; }
+  .plate { padding: 26px 24px 24px; }
+  .contact { display: flex; flex-wrap: wrap; gap: 2px 24px; }
+  .contact li:first-child { flex-basis: 100%; }
+  .profile { padding-top: 40px; }
+  .side { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; border-top: 1px solid var(--rule); margin-top: 40px; padding-top: 32px; }
+  .side section + section { margin-top: 0; }
 }
 
-@media (max-width: 720px) {
-  .masthead { min-height: 60px; }
-  .utilities { gap: 18px; }
-  .plate-inner { min-height: 0; }
-  .nameplate { padding-block: 96px 72px; }
-  .engraved { font-size: clamp(44px, 15.5vw, 92px); }
-  .role { margin-top: 18px; }
-  .fineprint { font-size: 14px; }
-  .contact { flex-direction: column; gap: 10px; font-size: 14px; }
-  .profile, .more, .content, .job { grid-template-columns: 1fr; gap: 16px; }
-  .profile p { font-size: 19px; }
-  .content { padding-top: 28px; }
-  .experience { grid-column: 1; }
-  .job { padding-left: 22px; gap: 10px; padding-bottom: 32px; }
-  .job:first-child::before { top: 4px; }
-  .job:last-child::before { height: 24px; }
-  .year { padding-left: 0; font-size: 24px; display: flex; align-items: baseline; gap: 12px; }
+@media (max-width: 560px) {
+  .topbar { min-height: 56px; gap: 12px; }
+  .utilities { gap: 16px; }
+  .engraved { font-size: 36px; }
+  .profile p { font-size: 18px; }
+  .job { grid-template-columns: 1fr; gap: 10px; padding-left: 18px; padding-bottom: 28px; }
+  .year { padding-left: 0; display: flex; align-items: baseline; gap: 10px; font-size: 22px; }
   .year span { margin-top: 0; }
-  .assignment { padding: 16px 16px 18px; }
-  .sidebar { grid-template-columns: 1fr; gap: 28px; }
-  .sidebar .skills, .sidebar .education { grid-column: 1; }
-  .more-content { grid-template-columns: 1fr; gap: 24px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .engraved::after { animation: none; display: none; }
+  .assignment { padding: 14px 16px 16px; }
+  .side, .more-content { grid-template-columns: 1fr; gap: 28px; }
 }
 
 /* ---------- Print: one clean A4 page, no photography ---------- */
 
-@page { size: A4; margin: 13mm 14mm; }
+@page { size: A4; margin: 12mm 13mm; }
 @media print {
-  :root { color-scheme: light; --surface: #fff; --ink: #15181c; --muted: #474d55; --rule: #c9ccd1; --accent: #23507a; --groove-dark: #c9ccd1; --groove-light: #fff; }
+  :root { color-scheme: light; --surface: #fff; --ink: #15181c; --muted: #474d55; --rule: #c9ccd1; --accent: #23507a; --groove-dark: #c9ccd1; --groove-light: #fff; --pocket: #fff; --plate-ink: #15181c; --plate-muted: #474d55; }
   body { background: #fff; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
   .frame { width: 100%; }
-  .skip-link, .utilities { display: none; }
-  .plate { background: none; box-shadow: none; padding: 0; color: var(--ink); border-bottom: 1px solid var(--ink); }
-  .plate::before, .plate::after, .engraved::after { display: none; }
-  .plate-inner { min-height: 0; display: block; padding-bottom: 12px; }
-  .masthead { min-height: 0; font-size: 9pt; }
-  .nameplate { padding: 8px 0 10px; }
-  .engraved { font-size: 34pt; max-width: none; letter-spacing: -.03em; }
-  .engraved::before { display: none; }
+  .skip-link, .topbar { display: none; }
+  .layout { grid-template-columns: 52mm minmax(0, 1fr); grid-template-rows: auto 1fr; column-gap: 9mm; padding: 0; }
+  .plate { grid-column: 1; grid-row: 1; }
+  main { grid-column: 2; grid-row: 1 / span 2; }
+  .side { grid-column: 1; grid-row: 2; display: block; border-top: 0; margin-top: 0; }
+  .contact { display: grid; }
+  .plate { background: none; box-shadow: none; padding: 0; border-radius: 0; }
+  .plate::before, .engraved::before { display: none; }
+  .engraved { font-size: 21pt; }
   .engraved-ink { color: var(--ink); -webkit-text-fill-color: var(--ink); background: none; mix-blend-mode: normal; }
-  .role { margin-top: 6px; font-size: 13pt; }
-  .fineprint { margin-top: 4px; font-size: 9pt; max-width: none; color: var(--muted); }
-  .contact { font-size: 8.5pt; gap: 4px 16px; flex-direction: row; }
-  .contact-links { gap: 4px 14px; }
-  .contact-links a { padding: 0; }
-  .contact-links a::after { content: ' ' attr(data-print); color: var(--muted); }
-  main { padding: 14px 0 0; }
-  .section-title { font-size: 8pt; margin-bottom: 8px; }
-  .profile, .more { grid-template-columns: 110px 1fr; gap: 16px; padding-bottom: 12px; }
-  .profile p { font-size: 10pt; line-height: 1.45; max-width: none; }
-  .content { grid-template-columns: 110px minmax(0, 1fr) 150px; gap: 16px; padding-top: 12px; }
-  .job { grid-template-columns: 110px minmax(0, 1fr); gap: 16px; padding-bottom: 11px; }
-  .year { font-size: 15pt; padding-left: 12px; }
-  .year span { font-size: 7.5pt; margin-top: 3px; }
+  .role { font-size: 11pt; margin-top: 6px; }
+  .fineprint { font-size: 8.5pt; }
+  .contact { margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--rule); box-shadow: none; gap: 1px; font-size: 8.5pt; }
+  .contact a { padding: 0; text-decoration: none; }
+  .contact a[data-print]::after { content: ' ' attr(data-print); color: var(--muted); }
+  .side { padding-top: 16px; }
+  .side section + section { margin-top: 14px; }
+  .section-title { font-size: 8pt; margin-bottom: 6px; }
+  .side h3 { font-size: 8.8pt; margin-top: 7px; }
+  .side p { font-size: 8.5pt; line-height: 1.4; }
+  .profile { padding: 0 0 12px; }
+  .profile p { font-size: 9.8pt; line-height: 1.45; max-width: none; }
+  .experience { padding-top: 12px; }
+  .job { grid-template-columns: 22mm minmax(0, 1fr); gap: 8px; padding-bottom: 10px; }
   .job::before { width: 2px; box-shadow: none; }
+  .year { font-size: 13pt; padding-left: 9px; }
+  .year span { font-size: 7.5pt; margin-top: 3px; }
   .job h3 { font-size: 10.5pt; }
-  .company { font-size: 8.5pt; margin: 2px 0 5px; }
-  .job p:not(.company) { font-size: 8.8pt; line-height: 1.45; max-width: none; }
-  .assignment { margin: 7px 0; padding: 7px 10px; box-shadow: none; border: 1px solid var(--rule); border-radius: 4px; }
+  .company { font-size: 8.5pt; margin: 2px 0 4px; }
+  .job p:not(.company):not(.year) { font-size: 8.8pt; line-height: 1.42; max-width: none; }
+  .assignment { margin: 6px 0; padding: 6px 10px; box-shadow: none; border: 1px solid var(--rule); border-radius: 4px; }
   .assignment h4 { font-size: 12pt; }
   .assignment .period, .assignment .assignment-role { font-size: 8.5pt; }
-  .assignment .assignment-role { margin: 1px 0 4px; }
-  .experience { grid-column: 1 / 3; }
-  .sidebar { grid-column: 3; grid-row: 1; display: block; border-top: 0; border-left: 1px solid var(--rule); padding: 0 0 0 12px; margin: 0; }
-  .sidebar section + section { margin-top: 14px; }
-  .sidebar h3 { font-size: 8.8pt; margin-top: 8px; }
-  .sidebar p { font-size: 8.5pt; line-height: 1.45; }
-  .more { margin-top: 12px; padding-top: 12px; break-inside: avoid; }
-  .more-content { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .assignment .assignment-role { margin: 1px 0 3px; }
+  .more { margin-top: 10px; padding-top: 10px; break-inside: avoid; }
+  .more-content { gap: 14px; }
   .more h3 { font-size: 9pt; margin-bottom: 3px; }
-  .more p { font-size: 8.5pt; line-height: 1.45; max-width: none; }
-  footer { margin-top: 12px; padding: 8px 0 0; font-size: 7.5pt; }
+  .more p { font-size: 8.5pt; line-height: 1.42; }
+  footer { margin-top: 10px; padding: 6px 0 0; font-size: 7.5pt; }
   a { text-decoration: none; }
 }

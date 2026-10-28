@@ -7,10 +7,10 @@ iOS Technical Lead with experience at Moeve through Kairos (2022–2026), Openba
 | Fact | Value |
 | --- | --- |
 | Published at | https://litoarias.github.io/resume/ (GitHub Pages, `main:/`) |
-| Languages | single language (root) |
-| Pages | home only |
+| Languages | English at the root (`index.html`), Spanish at `resume_es.html` |
+| Pages | CV in each language; `old/` keeps the previous design and is not in the sitemap |
 | Generated | no, hand-written HTML |
-| SEO files | none |
+| SEO files | `sitemap.xml`, `robots.txt`, canonical, hreflang, Open Graph image per language (`assets/img/og-<lang>.jpg`) |
 | Ads | no `app-ads.txt` |
 
 URLs registered in App Store Connect (privacy, support, marketing) must keep working (WEB-APP-004).

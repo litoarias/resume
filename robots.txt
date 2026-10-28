@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://litoarias.github.io/resume/sitemap.xml
