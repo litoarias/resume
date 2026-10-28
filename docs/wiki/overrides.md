@@ -15,7 +15,5 @@ Checked automatically on 2026-10-27 (home page only). Fix them when a task touch
 
 | Rule | Where | Notes |
 | --- | --- | --- |
-| WEB-SEO-002 | `index.html` | No canonical URL. |
 | WEB-SEO-003 | root | No `sitemap.xml`. |
 | WEB-SEO-003 | root | No `robots.txt`. |
-| WEB-SEO-004 | `index.html` | No Open Graph image. |
